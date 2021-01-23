@@ -1,0 +1,8 @@
+*
+!.docker
+!.git
+!src
+!tests
+!composer.json
+!composer.lock
+!phpunit.xml

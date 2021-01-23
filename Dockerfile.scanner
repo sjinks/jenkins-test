@@ -1,0 +1,6 @@
+FROM wildwildangel/sonarscanner:latest
+USER root
+WORKDIR /app
+COPY ./.docker/entrypoint-scanner.sh /usr/local/bin/entrypoint.sh
+COPY . .
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -1,0 +1,19 @@
+FROM php:7-cli-alpine
+WORKDIR /app
+
+RUN \
+    apk add --no-cache --virtual build-deps php7-dev gcc libc-dev make && \
+    pecl install pcov && \
+    apk del --no-cache build-deps
+
+RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
+RUN echo 'extension=pcov.so' > "${PHP_INI_DIR}/conf.d/pcov.ini"
+
+COPY composer.* phpunit.xml ./
+COPY src src
+COPY tests tests
+
+RUN composer install --no-scripts --no-progress --no-plugins --no-interaction
+
+COPY .docker/ci.sh /usr/local/bin/ci.sh
+ENTRYPOINT ["/usr/local/bin/ci.sh"]
