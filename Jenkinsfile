@@ -12,7 +12,7 @@ pipeline {
                     echo Will run sonar-scanner with the following parameters:
                     echo -Dsonar.branch.name=$GIT_BRANCH
                 else
-                    echo Unexpected situation, don't  know what to do
+                    echo "Unexpected situation, don't  know what to do"
                     env | sort
                 fi
                 '''
