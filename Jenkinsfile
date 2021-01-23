@@ -3,11 +3,15 @@ pipeline {
 
     stages {
         stage("Build") {
-            sh "docker build -t app ."
+            steps {
+                sh "docker build -t app ."
+            }
         }
 
         stage("Test") {
-            sh "docker run --rm -t app"
+            steps {
+                sh "docker run --rm -t app"
+            }
         }
     }
 }
