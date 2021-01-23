@@ -6,6 +6,12 @@ pipeline {
     }
 
     stages {
+        stage("Prepare") {
+            steps {
+                sh "env | sort"
+            }
+        }
+
         stage("Build") {
             steps {
                 sh "docker build -t app -f Dockerfile-ci ."
