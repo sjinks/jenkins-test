@@ -3,6 +3,12 @@ pipeline {
 
     stages {
         stage("Build") {
+            when {
+                expression {
+                    return env.ghprbPullId != null || env.GIT_BRANCH == 'origin/master'
+                }
+            }
+
             steps {
                 sh '''
                 env | sort
@@ -15,6 +21,7 @@ pipeline {
                 else
                     echo "Unexpected situation, don't know what to do"
                 fi
+                echo 'DONE'
                 '''
             }
         }
