@@ -5,7 +5,7 @@ pipeline {
         stage("Build") {
             when {
                 expression {
-                    return env.ghprbPullId != "" || env.GIT_BRANCH == 'origin/master'
+                    return env.ghprbPullId != null || env.GIT_BRANCH == 'origin/master'
                 }
             }
 
