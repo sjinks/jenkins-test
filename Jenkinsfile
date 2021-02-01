@@ -6,9 +6,9 @@ pipeline {
             steps {
                 sh '''
                 env | sort
-                if [ -n "$CHANGE_BRANCH" -a -n "$CHANGE_TARGET" -a -n "$CHANGE_ID" ]; then
+                if [ -n "$ghprbSourceBranch" -a -n "$ghprbTargetBranch" -a -n "$ghprbPullId" ]; then
                     echo Will run sonar-scanner with the following parameters:
-                    echo -Dsonar.pullrequest.branch=$CHANGE_BRANCH -Dsonar.pullrequest.base=$CHANGE_TARGET -Dsonar.pullrequest.key=$CHANGE_ID
+                    echo -Dsonar.pullrequest.branch=$ghprbSourceBranch -Dsonar.pullrequest.base=$ghprbTargetBranch -Dsonar.pullrequest.key=$ghprbPullId
                 elif [ -n "$GIT_BRANCH" ]; then
                     echo Will run sonar-scanner with the following parameters:
                     echo -Dsonar.branch.name=${GIT_BRANCH#origin/}
