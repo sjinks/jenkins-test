@@ -14,7 +14,6 @@ pipeline {
                     echo -Dsonar.branch.name=${GIT_BRANCH#origin/}
                 else
                     echo "Unexpected situation, don't know what to do"
-                    env | sort
                 fi
                 '''
             }
