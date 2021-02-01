@@ -21,6 +21,7 @@ pipeline {
                 else
                     echo "Unexpected situation, don't know what to do"
                 fi
+                echo 'DONE'
                 '''
             }
         }
