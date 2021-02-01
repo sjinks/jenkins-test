@@ -9,11 +9,11 @@ pipeline {
                 }
             }
 
-            steps {
-                environment {
-                    SECRET_TOKEN = credentials('secret-token')
-                }
+            environment {
+                SECRET_TOKEN = credentials('secret-token')
+            }
 
+            steps {
                 sh '''
                 env | sort
                 if [ -n "$ghprbSourceBranch" -a -n "$ghprbTargetBranch" -a -n "$ghprbPullId" ]; then
