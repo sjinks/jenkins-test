@@ -3,6 +3,12 @@ pipeline {
 
     stages {
         stage("Build") {
+            when {
+                expression {
+                    return env.ghprbPullId != "" || env.GIT_BRANCH == 'origin/master'
+                }
+            }
+
             steps {
                 sh '''
                 env | sort
