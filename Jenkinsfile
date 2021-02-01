@@ -4,6 +4,10 @@ pipeline {
     stages {
         stage("Build") {
             steps {
+                environment {
+                    SECRET_TOKEN = credentials('secret-token')
+                }
+
                 sh '''
                 env | sort
                 if [ -n "$ghprbSourceBranch" -a -n "$ghprbTargetBranch" -a -n "$ghprbPullId" ]; then
