@@ -3,16 +3,6 @@ pipeline {
 
     stages {
         stage("Build") {
-            when {
-                expression {
-                    return env.ghprbPullId != null || env.GIT_BRANCH == 'origin/master'
-                }
-            }
-
-            environment {
-                SECRET_TOKEN = credentials('secret-token')
-            }
-
             steps {
                 sh '''
                 env | sort
