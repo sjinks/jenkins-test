@@ -5,7 +5,7 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    if (env.X_REF != null && env.X_REF =~ /ref\/heads\/(master|integration)/) {
+                    if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
                         currentBuild.result = 'NOT_BUILT'
                         publishChecks conclusion: 'SKIPPED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
                         return
@@ -32,29 +32,12 @@ pipeline {
                 '''
             }
             post {
-                aborted {
-                    script {
-                        if (env.X_REF != null) {
-                            publishChecks conclusion: 'CANCELED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
-                        }
-                    }
-                }
-                success {
-                    script {
-                        if (env.X_REF != null) {
-                            publishChecks conclusion: 'SUCCESS', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
-                        }
-                    }
-                }
-                failure {
-                    script {
-                        if (env.X_REF != null) {
-                            publishChecks conclusion: 'FAILURE', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
-                        }
-                    }
-                }
                 always {
                     echo currentBuild.result
+                        // if (env.X_REF != null) {
+                        //     publishChecks conclusion: 'FAILURE', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                        // }
+
                 }
             }
         }
