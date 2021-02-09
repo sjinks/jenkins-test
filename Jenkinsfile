@@ -1,12 +1,12 @@
 pipeline {
     agent any
 
-    stages {
-        if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
-            currentBuild.result = 'NOT_BUILT'
-            return
-        }
+    if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
+        currentBuild.result = 'NOT_BUILT'
+        return
+    }
 
+    stages {
         stage("Build") {
             steps {
                 sh '''
