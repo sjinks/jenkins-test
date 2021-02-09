@@ -11,7 +11,7 @@ pipeline {
         stage("Build") {
             when {
                 expression {
-                    return env.X_REF == null || env.X_REF =~ /ref\/heads\/(master|integration)/
+                    return env.X_REF == null || env.X_REF =~ /refs\/heads\/master/
                 }
             }
 
