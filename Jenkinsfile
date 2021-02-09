@@ -33,22 +33,30 @@ pipeline {
             }
             post {
                 aborted {
-                    if (env.X_REF != null) {
-                        publishChecks conclusion: 'CANCELED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                    script {
+                        if (env.X_REF != null) {
+                            publishChecks conclusion: 'CANCELED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                        }
                     }
                 }
                 success {
-                    if (env.X_REF != null) {
-                        publishChecks conclusion: 'SUCCESS', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                    script {
+                        if (env.X_REF != null) {
+                            publishChecks conclusion: 'SUCCESS', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                        }
                     }
                 }
                 failure {
-                    if (env.X_REF != null) {
-                        publishChecks conclusion: 'FAILURE', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                    script {
+                        if (env.X_REF != null) {
+                            publishChecks conclusion: 'FAILURE', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                        }
                     }
                 }
+                always {
+                    echo currentBuild.result
+                }
             }
-
         }
     }
 }
