@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        GenericTrigger causeString: 'Generic Cause', genericHeaderVariables: [[key: 'x-github-event', regexpFilter: '']], genericVariables: [[defaultValue: '', key: 'X_ACTION', regexpFilter: '', value: '$.action'], [defaultValue: '', key: 'X_TARGET_BRANCH', regexpFilter: '', value: '$.pull_request.base.ref'], [defaultValue: '', key: 'X_SOURCE_BRANCH', regexpFilter: '', value: '$.pull_request.head.ref'], [defaultValue: '', key: 'X_PR_NUMBER', regexpFilter: '', value: '$.pull_request.number'], [defaultValue: '', key: 'X_REF', regexpFilter: '', value: '$.ref']], printContributedVariables: true, regexpFilterExpression: '', regexpFilterText: '', token: 'topsecret', tokenCredentialId: ''
-    }
-
     stages {
         stage("Build") {
             steps {
