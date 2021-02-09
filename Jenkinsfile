@@ -4,10 +4,9 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                script {
-                    if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
-                        currentBuild.result = 'NOT_BUILT'
-                        exit 0
+                when {
+                    expression {
+                        return env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)
                     }
                 }
 
