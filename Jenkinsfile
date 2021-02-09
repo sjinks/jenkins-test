@@ -7,12 +7,7 @@ pipeline {
                 script {
                     if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
                         currentBuild.result = 'NOT_BUILT'
-                        publishChecks conclusion: 'SKIPPED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
                         return
-                    }
-
-                    if (env.X_REF != null) {
-                        publishChecks conclusion: 'NONE', detailsURL: env.BUILD_URL, name: 'CI', status: 'IN_PROGRESS', text: 'Cont Int', title: 'The CI'
                     }
                 }
 
@@ -30,15 +25,6 @@ pipeline {
                 fi
                 echo 'DONE'
                 '''
-            }
-            post {
-                always {
-                    echo currentBuild.result
-                        // if (env.X_REF != null) {
-                        //     publishChecks conclusion: 'FAILURE', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
-                        // }
-
-                }
             }
         }
     }
