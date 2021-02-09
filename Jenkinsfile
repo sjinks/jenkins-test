@@ -10,6 +10,7 @@ pipeline {
             steps {
                 sh '''
                 env | sort
+
                 if [ -n "$ghprbSourceBranch" -a -n "$ghprbTargetBranch" -a -n "$ghprbPullId" ]; then
                     echo Will run sonar-scanner with the following parameters:
                     echo -Dsonar.pullrequest.branch=$ghprbSourceBranch -Dsonar.pullrequest.base=$ghprbTargetBranch -Dsonar.pullrequest.key=$ghprbPullId
