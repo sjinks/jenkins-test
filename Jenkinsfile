@@ -3,14 +3,14 @@ pipeline {
 
     stages {
         stage("Build") {
-            script {
-                if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
-                    currentBuild.result = 'NOT_BUILT'
-                    return
-                }
-            }
-
             steps {
+                script {
+                    if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
+                        currentBuild.result = 'NOT_BUILT'
+                        exit 0
+                    }
+                }
+
                 sh '''
                 env | sort
 
