@@ -3,7 +3,9 @@ pipeline {
 
     stages {
         stage("Debug") {
-            sh "env | grep X_"
+            steps {
+                sh "env | grep X_"
+            }
         }
 
         stage("Build") {
