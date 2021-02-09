@@ -3,13 +3,13 @@ pipeline {
 
     stages {
         stage("Build") {
-            steps {
-                when {
-                    expression {
-                        return env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)
-                    }
+            when {
+                expression {
+                    return env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)
                 }
+            }
 
+            steps {
                 sh '''
                 env | sort
 
