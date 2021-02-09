@@ -1,15 +1,15 @@
 pipeline {
     agent any
 
-    script {
-        if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
-            currentBuild.result = 'NOT_BUILT'
-            return
-        }
-    }
-
     stages {
         stage("Build") {
+            script {
+                if (env.X_REF != null && !(env.X_REF =~ /ref\/heads\/(master|integration)/)) {
+                    currentBuild.result = 'NOT_BUILT'
+                    return
+                }
+            }
+
             steps {
                 sh '''
                 env | sort
