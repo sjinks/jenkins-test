@@ -2,6 +2,10 @@ pipeline {
     agent any
 
     stages {
+        stage("Debug") {
+            sh "env | grep X_"
+        }
+
         stage("Build") {
             when {
                 expression {
