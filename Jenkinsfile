@@ -4,6 +4,16 @@ pipeline {
     stages {
         stage("Build") {
             steps {
+                if (env.X_REF != null && env.X_REF =~ /ref\/heads\/(master|integration)/') {
+                    currentBuild.result = 'NOT_BUILT'
+                    publishChecks conclusion: 'SKIPPED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                    return
+                }
+
+                if (env.X_REF != null) {
+                    publishChecks conclusion: 'NONE', detailsURL: env.BUILD_URL, name: 'CI', status: 'IN_PROGRESS', text: 'Cont Int', title: 'The CI'
+                }
+
                 sh '''
                 env | sort
 
@@ -12,14 +22,31 @@ pipeline {
                     echo -Dsonar.pullrequest.branch=$ghprbSourceBranch -Dsonar.pullrequest.base=$ghprbTargetBranch -Dsonar.pullrequest.key=$ghprbPullId
                 elif [ -n "$GIT_BRANCH" ]; then
                     echo Will run sonar-scanner with the following parameters:
-                    echo -Dsonar.branch.name=${GIT_BRANCH#origin/}
+                    echo -Dsonar.branch.name=${X_REF#ref/heads/}
                 else
                     echo "Unexpected situation, don't know what to do"
                 fi
                 echo 'DONE'
                 '''
             }
+            post {
+                aborted {
+                    if (env.X_REF != null) {
+                        publishChecks conclusion: 'CANCELED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                    }
+                }
+                success {
+                    if (env.X_REF != null) {
+                        publishChecks conclusion: 'SUCCESS', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                    }
+                }
+                failure {
+                    if (env.X_REF != null) {
+                        publishChecks conclusion: 'FAILURE', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
+                    }
+                }
+            }
+
         }
     }
 }
-
