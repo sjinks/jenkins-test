@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                if (env.X_REF != null && env.X_REF =~ /ref\/heads\/(master|integration)/') {
+                if (env.X_REF != null && env.X_REF =~ /ref\/heads\/(master|integration)/) {
                     currentBuild.result = 'NOT_BUILT'
                     publishChecks conclusion: 'SKIPPED', detailsURL: env.BUILD_URL, name: 'CI', text: 'Cont Int', title: 'The CI'
                     return
