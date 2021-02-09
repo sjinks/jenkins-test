@@ -5,23 +5,20 @@ pipeline {
         stage("Build") {
             when {
                 expression {
-                    return env.ghprbPullId != null || env.GIT_BRANCH == 'origin/master'
+                    return env.X_REF == null || env.X_REF =~ /ref\/heads\/(master|integration)/
                 }
-            }
-
-            environment {
-                SECRET_TOKEN = credentials('secret-token')
             }
 
             steps {
                 sh '''
                 env | sort
+
                 if [ -n "$ghprbSourceBranch" -a -n "$ghprbTargetBranch" -a -n "$ghprbPullId" ]; then
                     echo Will run sonar-scanner with the following parameters:
                     echo -Dsonar.pullrequest.branch=$ghprbSourceBranch -Dsonar.pullrequest.base=$ghprbTargetBranch -Dsonar.pullrequest.key=$ghprbPullId
                 elif [ -n "$GIT_BRANCH" ]; then
                     echo Will run sonar-scanner with the following parameters:
-                    echo -Dsonar.branch.name=${GIT_BRANCH#origin/}
+                    echo -Dsonar.branch.name=${X_REF#ref/heads/}
                 else
                     echo "Unexpected situation, don't know what to do"
                 fi
